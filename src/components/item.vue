@@ -14,13 +14,9 @@ import Vue from 'vue';
 
 export default Vue.extend({
   name: 'ItemComponent',
-  data: function(){
-    return {
-    }
-  },
   props: [
     'item',
-    'editLink'
-  ]
+    'editLink',
+  ],
 });
 </script>

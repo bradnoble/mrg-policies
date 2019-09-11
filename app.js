@@ -122,7 +122,6 @@ app.get('/api/lookup/:id',
 // get items by type
 app.get('/api/get/items/',
   function(req, res){
-    
     /////////////////////////////////////
     // #region selector for items by type
     /* https://cloud.ibm.com/docs/services/Cloudant/api?topic=cloudant-query#the-or-operator
@@ -177,7 +176,7 @@ app.get('/api/get/items/',
       ]
     })
     .then((data) => {
-      console.log(data);
+      // console.log(data);
       res.send(data);
     })
     .catch((err) => {

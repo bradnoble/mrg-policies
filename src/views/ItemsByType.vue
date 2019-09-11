@@ -2,8 +2,6 @@
   <div class="">
     <h1 class="hide">Clips</h1>
 
-    <searchForm />
-
     <error :errors="errors" />
     <loading :loading="loading" />
 
@@ -33,28 +31,30 @@ export default Vue.extend({
     loading,
     error,
     items,
-    searchForm
+    searchForm,
   },
-  data () {
+  data() {
     return {
       loading: true,
       items: [] as string[],
-      errors: [] as string[]
-    }
+      errors: [] as string[],
+    };
   },
-  mounted: function(){
+  mounted() {
     this.fetchData();
   },
   watch: {
-    '$route'(to, from) {
+    $route(to, from) {
       this.fetchData();
-    }
+    },
   },
   methods: {
-    async fetchData () {
+    async fetchData() {
       // console.log(this.$route.params.category)
       try {
-        const { data } = await api.getItemsByType([this.$route.params.category]);
+        const category = [] as any;
+        category.push(this.$route.params.category);
+        const { data } = await api.getItemsByType(category);
         this.items = factories.extractRows(data);
       } catch (e) {
         this.errors.push(e);
@@ -62,7 +62,7 @@ export default Vue.extend({
         this.$emit('show-error', this.errors);
         this.loading = false;
       }
-    }
-  }
+    },
+  },
 });
 </script>

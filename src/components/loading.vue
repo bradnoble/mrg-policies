@@ -12,18 +12,8 @@ import Vue from 'vue';
 
 export default Vue.extend({
   name: 'loading',
-  data: function(){
-    return {
-    }
-  },
   props: [
-    'loading'
+    'loading',
   ],
-  created() {
-  },
-  mounted: function(){
-  },
-  methods: {
-  }
 });
 </script>

@@ -2,8 +2,6 @@
   <div class="">
     <h1 class="hide">Search</h1>
 
-    <searchForm />
-
     <error :errors="errors" />
     <loading :loading="loading" />
 
@@ -50,9 +48,9 @@ import Vue from 'vue';
 import items from '@/components/items.vue';
 import loading from '@/components/loading.vue';
 import error from '@/components/error.vue';
+import searchForm from '@/components/searchForm.vue';
 import api from '@/js/api';
 import factories from '@/js/factories';
-import searchForm from '@/components/searchForm.vue';
 
 export default Vue.extend({
   name: 'SearchResults',
@@ -60,44 +58,42 @@ export default Vue.extend({
     searchForm,
     items,
     loading,
-    error
+    error,
   },
-  data: function(){
+  data() {
     return {
       results: [] as string[],
       facets: [] as string[],
       errors: [] as string[],
-      loading: true
-    }
+      loading: true,
+    };
   },
-  created() {
-  },
-  mounted: function(){
+  mounted() {
     this.fetchData();
   },
   watch: {
-    '$route'(to, from) {
+    $route(to, from) {
       this.fetchData();
-    }
+    },
   },
   methods: {
-    async fetchData () {
-      let searchStr = this.$route.query;
+    async fetchData() {
+      const searchStr = this.$route.query;
       this.loading = true;
       this.errors = [];
-        try {
-          if(Object.keys(searchStr).length > 0){
-            const { data } = await api.search(searchStr);
-            this.results = factories.extractRows(data);
-            this.facets = data.counts;
-          }
-        } catch (e) {
-          this.errors.push(e);
-        } finally {
-          this.$emit('show-error', this.errors);
-          this.loading = false;
+      try {
+        if (Object.keys(searchStr).length > 0) {
+          const { data } = await api.search(searchStr);
+          this.results = factories.extractRows(data);
+          this.facets = data.counts;
         }
-    }
-  }
+      } catch (e) {
+        this.errors.push(e);
+      } finally {
+        this.$emit('show-error', this.errors);
+        this.loading = false;
+      }
+    },
+  },
 });
 </script>

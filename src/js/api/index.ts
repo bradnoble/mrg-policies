@@ -7,48 +7,49 @@ import axios from 'axios';
 
 const HTTP = axios.create({
   baseURL: process.env.VUE_APP_BASEURL,
-})
+});
 
 export default {
-  search (query) {
+  search(query: any) {
     return HTTP.get('/api/search', {
-      params: query
+      params: query,
     });
   },
-  lookup (id){
+  lookup(id: string) {
     return HTTP.get('/api/lookup/' + id);
   },
-  save (item) {
+  save(item: {}) {
     return HTTP.post('/api/save/', item);
   },
-  getItemsByType (types) {
-    // types is expected to be an array
-    return HTTP.get('/api/get/items', {
+  getItemsByType(types: any) {
+    const obj = {
       params: {
-        type: types
-      }
-    });
+        type: types,
+      },
+    };
+    // types is expected to be an array
+    return HTTP.get('/api/get/items', obj);
   },
-  getItemsById (array) {
+  getItemsById(array: []) {
     // console.log(array);
     return HTTP.get('/api/get/itemsById', {
       params: {
-        keys: array
-      }
-    })
+        keys: array,
+      },
+    });
   },
-  getRelatedItems (id) {
+  getRelatedItems(val: string) {
     return HTTP.get('/api/get/relatedItems', {
       params: {
-        id: id
-      }
-    })
+        id: val,
+      },
+    });
   },
-  getPolicies (){
+  getPolicies() {
     // console.log('getPolicies');
     // todo: get results by type(s)
     // take an array of types as a param and
     // send that param to the view
-    return HTTP.get('/api/get/policies')
-  }
-}
+    return HTTP.get('/api/get/policies');
+  },
+};

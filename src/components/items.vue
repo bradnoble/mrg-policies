@@ -13,13 +13,13 @@ import Vue from 'vue';
 import itemWithLinks from '@/components/itemWithLinks.vue';
 
 export default Vue.extend({
-  name: 'Policies',
+  name: 'Items',
   components: {
-    itemWithLinks
+    itemWithLinks,
   },
   props: [
     'items',
-    'error'
-  ]
+    'error',
+  ],
 });
 </script>

@@ -28,18 +28,8 @@ import factories from '@/js/factories';
 
 export default Vue.extend({
   name: 'error',
-  data: function(){
-    return {
-    }
-  },
   props: [
-    'errors'
+    'errors',
   ],
-  created() {
-  },
-  mounted: function(){
-  },
-  methods: {
-  }
 });
 </script>

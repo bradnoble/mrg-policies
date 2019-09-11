@@ -1,6 +1,15 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
+    <h1>
+      Welcome to MRG Policies
+    </h1>
+    <ul>
+      <li>
+        <router-link :to="{name: 'policies'}">
+          Policies
+        </router-link>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -8,7 +17,7 @@
 import Vue from 'vue';
 
 export default Vue.extend({
-  name: 'home',
+  name: 'Home',
   components: {
   },
 });

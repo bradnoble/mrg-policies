@@ -7,13 +7,19 @@
         <loading :loading="loading" />
 
         <h1>
-          <span class="type" :class="item.type">{{ item.type }}</span> 
           {{ item.title | capitalize }}
         </h1>
 
         <div class="section flow-text">
+          <div>
+            <div class="chip" :class="item.type">{{ item.type }}</div>
+            <span v-if="item.date" class="chip date">
+              <span v-if="item.type == 'policy'">Adopted:</span> 
+              {{ item.date | readerFriendlyDate }}
+            </span>
+          </div>
           <p>
-            {{ item.body }}
+            {{ item.body | capitalize }}
           </p>
 
           <p v-if="item.url">
@@ -72,71 +78,83 @@ export default Vue.extend({
     error,
     loading,
     items,
-    url
+    url,
   },
-  data: function(){
+  data() {
     return {
       item: {} as any,
       errors: [] as any,
       policies: [] as any[],
       relatedItems: [] as any[],
-      loading: true
-    }
+      loading: true,
+    };
   },
-  created() {
-  },
-  mounted: function(){
+  mounted() {
     return setTimeout(() => {
       this.fetchData();
-    }, 1000)
+    }, 1000);
   },
   watch: {
-    '$route'(to, from) {
+    $route(to, from) {
       this.fetchData();
-    }
+    },
   },
   methods: {
-    async getItem () {
+    async getItem() {
       try {
         const { data } = await api.lookup(this.$route.params.id);
         return data;
       } catch (e) {
         this.errors.push(e);
-      } finally {}
+      }
     },
-    async getRelatedPolicies () {
+    async getRelatedPolicies() {
       try {
         const { data } = await api.getItemsById(this.item.policies);
         // https://wesbos.com/destructuring-objects/
         return factories.extractRows(data);
       } catch (e) {
         this.errors.push(e);
-      } finally {}
+      }
     },
-    async getRelatedItems () {
+    async getRelatedItems() {
       try {
         const { data } = await api.getRelatedItems(this.item._id);
         return factories.extractRows(data);
       } catch (e) {
         this.errors.push(e);
-      } finally {}
+      }
     },
-    async fetchData () {
+    async fetchData() {
       try {
         this.item = await this.getItem();
-        if(this.item.type != "policy"){
+        if (this.item.type !== 'policy') {
           this.policies = await this.getRelatedPolicies();
         } else {
           this.relatedItems = await this.getRelatedItems();
         }
       } catch (e) {
+        this.errors.push(e);
       } finally {
-        if(this.errors && this.errors.length > 0){
+        if (this.errors && this.errors.length > 0) {
           this.$emit('show-error', this.errors);
         }
         this.loading = false;
       }
-    }
-  }
+    },
+  },
 });
 </script>
+<style lang="scss">
+.chip {
+  text-transform: uppercase;
+  &.policy {
+    background: red;
+    color: white;
+  }
+  &.date {
+    background: ghostwhite;
+  }
+
+}
+</style>

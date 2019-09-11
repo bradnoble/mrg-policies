@@ -11,7 +11,7 @@ import Vue from 'vue';
 export default Vue.extend({
   name: 'url',
   props: [
-    'item'
-  ]
+    'item',
+  ],
 });
 </script>

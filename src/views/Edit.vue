@@ -92,7 +92,8 @@
           <div class="row date-picker">
             <div class="input-field col s12 m4">
                 <select class="browser-default" v-model="dateValuesForSelects.month" @change="changeDate()" id="month">
-                  <option v-for="(month, key) in months" v-bind:key="key" v-bind:value="month">
+                  <option value="Month" disabled>Month</option>
+                  <option v-for="(month, key) in months" :key="key" :value="month">
                     {{ month }}
                   </option>
                 </select>
@@ -102,6 +103,7 @@
             <div class="col s12 m4">
               <div class="input-field">
                 <select class="browser-default" v-model="dateValuesForSelects.day" @change="changeDate()" id="day">
+                  <option value="Day" disabled>Day</option>
                   <option v-for="(day, key) in days" v-bind:key="key" v-bind:value="day">
                     {{ day }}
                   </option>
@@ -113,6 +115,7 @@
             <div class="col s12 m4">
               <div class="input-field">
                 <select class="browser-default" v-model="dateValuesForSelects.year" @change="changeDate()" id="year">
+                  <option value="Year" disabled>Year</option>
                   <option v-for="(year, key) in years" v-bind:key="key" v-bind:value="year">
                     {{ year }}
                   </option>
@@ -193,16 +196,20 @@ export default Vue.extend({
   components: {
     item,
     error,
-    loading
+    loading,
   },
-  data: function(){
+  data() {
     return {
       item: {} as any,
       policies: [] as any[],
-      dateValuesForSelects: {} as any, //'' as string
+      dateValuesForSelects: {
+        month: 'Month',
+        year: 'Year',
+        day: 'Day',
+      } as any, // '' as string
       errors: [] as any[],
-      loading: true
-    }
+      loading: true,
+    };
   },
   computed: {
     types() {
@@ -216,111 +223,110 @@ export default Vue.extend({
     },
     years() {
       return factories.getYears();
-    }
+    },
   },
-  mounted: function(){
+  mounted() {
     this.fetchData();
   },
   watch: {
-    '$route'(to, from) {
+    $route(to, from) {
       this.fetchData();
-    }
+    },
   },
   methods: {
-    async fetchData () {
-      let id = this.$route.params.id;
+    async fetchData() {
+      const id = this.$route.params.id;
       try {
-        if(!id){
+        if (!id) {
           this.item = factories.setDocDefaults();
         } else {
           this.item = await this.getItem();
-          if(this.item.date){
+          if (this.item.date) {
             this.dateValuesForSelects = await this.setDateValuesForSelects();
           }
         }
         this.policies = await this.getPolicies();
       } catch (e) {
+        this.errors.push(e);
       } finally {
-        if(this.errors && this.errors.length > 0){
+        if (this.errors && this.errors.length > 0) {
           this.$emit('show-error', this.errors);
         }
         this.loading = false;
-      }      
+      }
     },
-    async setDateValuesForSelects () {
+    async setDateValuesForSelects() {
       // save the date field to a temporary variable and
       // convert to Date() so that we can extract day, month, year values from it
-      let date = new Date(this.item.date);
+      const date = new Date(this.item.date);
       // use those values to populate the day, month, year selects in the form
       // https://stackoverflow.com/questions/3552461/how-to-format-a-javascript-date
       return {
         year: date.toLocaleDateString('en-US', { year: 'numeric' }),
         month: date.toLocaleDateString('en-US', { month: 'long' }),
-        day: date.toLocaleDateString('en-US', { day: 'numeric' })
-      }
+        day: date.toLocaleDateString('en-US', { day: 'numeric' }),
+      };
     },
-    async getPolicies () {
+    async getPolicies() {
       try {
-        const { data } = await api.getItemsByType(["policy"]);
+        const category = [] as any;
+        category.push('policy');
+        const { data } = await api.getItemsByType(category);
         return factories.extractRows(data);
       } catch (e) {
         this.errors.push(e);
       } finally {
-        if(this.errors && this.errors.length > 0){
+        if (this.errors && this.errors.length > 0) {
           this.$emit('show-error', this.errors);
         }
         this.loading = false;
       }
     },
-    async getItem () {
+    async getItem() {
       try {
         const { data } = await api.lookup(this.$route.params.id);
         return data;
       } catch (e) {
         this.errors.push(e);
       } finally {
-        if(this.errors && this.errors.length > 0){
+        if (this.errors && this.errors.length > 0) {
           this.$emit('show-error', this.errors);
         }
         this.loading = false;
       }
     },
-    saveItem: function(){
-      let _this = this;
-      console.log('Saving...');
-        // $('#save').text('Saving...');
-
-      api.save(_this.item)
-        .then(response => {
-          // redirect to the object page
-          _this.$router.replace({ name: 'item', params: { category: _this.item.type, id: _this.item._id } });  
-        })
-        .catch(e => {
-          //this.error = e;
-        });
+    async saveItem() {
+      try {
+        // console.log('Saving...');
+        const { data } = await api.save(this.item);
+        this.$router.replace({ name: 'item', params: { category: this.item.type, id: this.item._id } });
+      } catch (e) {
+        this.errors = e;
+      } finally {
+        this.loading = false;
+      }
     },
-    deleteItem: function(){
-      let _this = this;
-      Vue.set(_this.item, '_deleted', true);
+    deleteItem() {
+      Vue.set(this.item, '_deleted', true);
       // console.log('delete')
-      let proceed = confirm("Are you sure you want to remove this item? This action can not be undone.")
+      const proceed = confirm('Are you sure you want to remove this item? This action can not be undone.');
 
-      if(proceed){    
+      if (proceed) {
         this.saveItem();
         // todo: add toast about deleting an item
       }
     },
-    changeDate: function(){
+    changeDate() {
       // called by the date select inputs in the form
       // when the user changes the value of a date select,
       // we take the values of all three selects and format them into one ISOstring
-      // which is what the database wants to store and use 
-      let date = factories.setDateToISOString(this.dateValuesForSelects);
-      if(date){
-        this.item.date = date;        
+      // which is what the database wants to store and use
+      const date = factories.setDateToISOString(this.dateValuesForSelects);
+      if (date) {
+        this.item.date = date;
       }
     },
-    checkURL (e:any) {
+    checkURL(e: any) {
       /*
       let url = new URL(this.item.url);
       let path = url.pathname;
@@ -336,8 +342,8 @@ export default Vue.extend({
       }
       console.log(str)
       */
-    }
-  }
+    },
+  },
 });
 </script>
 

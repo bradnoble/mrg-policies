@@ -17,8 +17,13 @@ var x = function (doc) {
   }
   // set a date_updated
   if(!doc.date_updated || doc.date_updated == ''){
-    let date = new Date().toISOString();
-    doc.date_updated = date;
+    let date_updated = new Date().toISOString();
+    doc.date_updated = date_updated;
+  }
+  // make sure date is formatted as ISOstring
+  if(doc.date){
+    let date = new Date(doc.date).toISOString();
+    doc.date = date;
   }
   return doc
 }

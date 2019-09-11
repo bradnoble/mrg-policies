@@ -25,15 +25,11 @@ import url from '@/components/url.vue';
 export default Vue.extend({
   name: 'ItemComponent',
   components: {
-    url
-  },
-  data: function(){
-    return {
-    }
+    url,
   },
   props: [
     'item',
-    'editLink'
-  ]
+    'editLink',
+  ],
 });
 </script>

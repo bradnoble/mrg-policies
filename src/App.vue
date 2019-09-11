@@ -1,12 +1,18 @@
 <template>
   <div id="app">
     <div class="container">
-      <img src="./assets/mrg-logo.png" class="logo" />
-      <span id="nav">
-        <router-link :to="{name: 'itemsByType', params: {category: 'policy'}}">Policies</router-link> | 
-        <router-link :to="{name: 'itemsByType', params: {category: 'clip'}}">Clips</router-link> | 
-        <router-link to="/search">Search</router-link>      
-        </span>
+      <div class="row">
+        <div class="col s12 m6">
+          <img src="./assets/mrg-logo.png" class="logo" />
+          <span id="nav">
+            <router-link :to="{name: 'itemsByType', params: {category: 'policy'}}">Policies</router-link> | 
+            <router-link :to="{name: 'itemsByType', params: {category: 'clip'}}">Clips</router-link>
+          </span>
+        </div>
+        <div class="col s12 m6">
+          <searchForm />   
+        </div>
+      </div><!--row--> 
       <router-view />
     </div>
   </div>
@@ -22,18 +28,8 @@ import factories from '@/js/factories';
 export default Vue.extend({
   name: 'Home',
   components: {
-    searchForm
+    searchForm,
   },
-  data () {
-    return {
-    }
-  },
-  mounted: function(){
-  },
-  watch: {
-  },
-  methods: {
-  }
 });
 </script>
 
@@ -72,25 +68,6 @@ img.logo {
     }
   }
 }
-span.type {
-  opacity: .5;
-  text-transform: uppercase;
-  font-size: .85em;
-}
-span.type.chip {
-  color: green
-}
-span.type.policy {
-  color: red
-}
-.chip.clip {
-  background-color: #94abbb;
-  color: white;
-}
-.chip.policy {
-  background-color: #365e7a;
-  color: white;
-}
 i.material-icons {
   vertical-align: bottom !important;
 }
@@ -99,5 +76,10 @@ i.material-icons.large {
 }
 i.material-icons.tiny {
   vertical-align: middle !important;
+}
+input#search {
+  &.active {
+    background-color: yellow;
+  }
 }
 </style>

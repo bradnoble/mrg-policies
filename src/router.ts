@@ -13,7 +13,7 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
     },
     {
       path: '/about',
@@ -21,35 +21,40 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      component: () => import(/* webpackChunkName: "about" */ './views/About.vue'),
+    },
+    {
+      path: '/type/policy',
+      name: 'policies',
+      redirect: { name: 'itemsByType', params: { category: 'policy' } },
     },
     {
       path: '/type/:category',
       name: 'itemsByType',
-      component: Items
+      component: Items,
     },
     {
       path: '/search',
       name: 'search',
-      component: Search
+      component: Search,
     },
     {
       path: '/add-item',
       name: 'add',
       component: Edit,
-      props: true
+      props: true,
     },
     {
       path: '/edit/:id',
       name: 'edit',
       component: Edit,
-      props: true
+      props: true,
     },
     {
       path: '/:category/:id',
       name: 'item',
       component: Item,
-      props: true
+      props: true,
     },
   ],
 });

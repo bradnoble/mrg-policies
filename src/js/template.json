@@ -3,6 +3,7 @@
   "title": "{{words 3}}",
   "body": "{{words 20}}",
   "type": "{{oneof clip}}",
+  "date": "",
   "policies": ["{{oneof 1 2 3 4 5}}","{{oneof 1 2 3 4 5}}"],
   "url": "{{oneof https://www.madriverglen.com/meeting-item/board-of-trustees-meeting-march-14-2015/ https://www.madriverglen.com/meeting-item/board-of-trustees-meeting-april-15-2016/ }}"
 }
