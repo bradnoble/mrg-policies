@@ -82,4 +82,9 @@ input#search {
     background-color: yellow;
   }
 }
+a.collection-item.router-link-exact-active {
+  background: #eee;
+  color: black;
+  font-weight: bold;
+}
 </style>

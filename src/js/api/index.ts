@@ -32,6 +32,9 @@ export default {
   },
   getItemsById(array: []) {
     // console.log(array);
+    // when itemDetail is a clip
+    // show the policies that it relates to
+    // note: expects an array; e.g., this.item.policies
     return HTTP.get('/api/get/itemsById', {
       params: {
         keys: array,
@@ -39,6 +42,9 @@ export default {
     });
   },
   getRelatedItems(val: string) {
+    // when itemDetail is a policy
+    // show the items that link to it
+    // note: expects a string, which is the id of the policy
     return HTTP.get('/api/get/relatedItems', {
       params: {
         id: val,
