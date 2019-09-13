@@ -31,6 +31,14 @@
         <div class="collections">
             <items :items="results" />
         </div><!--collection-->
+        <div class="section">
+          <div class="divider"></div>
+          <p>
+            <router-link :to="{name: 'policies'}">
+              &larr; Back to policies
+            </router-link>
+          </p>
+        </div>
       </div><!--col-->
     </div><!--row-->
     <div v-else>

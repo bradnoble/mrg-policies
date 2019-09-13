@@ -1,10 +1,8 @@
 <template>
-    <form action="#" @submit.prevent="pushToRouter">
+    <form action="#" @submit.prevent="pushToRouter" class="searchForm">
       <div class="input-field">
-        <i class="material-icons prefix tiny hide">search</i>
-
-        <input id="search" type="text" v-model="searchStr" placeholder="Search..." @focus="activate()" @blur="deactivate()" :class="{active: activated == true || searchStr }" />
-        <!-- <label for="search">Search</label> -->
+        <i class="material-icons prefix tiny">search</i>
+        <input type="text" v-model="searchStr" placeholder="Search..." @focus="activate()" @blur="deactivate()" :class="{active: activated == true || $route.query.q }" class="search" />
       </div>
     </form>
 </template>
@@ -24,6 +22,16 @@ export default Vue.extend({
   },
   updated() {
     // TODO: M.updateTextFields();
+  },
+  watch: {
+    $route(to, from){
+      // this will hide the search query when the view
+      // is something other than search results
+      if(!this.$route.query.q){
+        this.searchStr = '';
+      }
+    }
+    // asdf
   },
   methods: {
     pushToRouter() {
@@ -45,3 +53,14 @@ export default Vue.extend({
   },
 });
 </script>
+<style lang="scss">
+.searchForm.hide-on-small-only {
+  input.search {
+    width: 35%;
+    &.active {
+      background-color: white;
+      border-bottom: 0px;
+    }
+  }
+}
+</style>

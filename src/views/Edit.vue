@@ -83,7 +83,7 @@
             Date
           </h6>
           <p>
-            Not today's date, necessarily. The would be the date the policy was adopted, or this item was cited. If you're citing board minutes, it's the date of the board meeting.
+            The date the policy was adopted, or this item was cited. If you're citing board minutes, it's the date of the board meeting.
           </p><!--col-->
           <p class="hide">
             {{ item.date | readerFriendlyDate() }}
@@ -166,7 +166,7 @@
       <div class="section">
         <div class="divider"></div>
         <p>
-          <a href="#" @click.prevent="deleteItem()" class="red-text">Delete this item</a>
+          <a href="#" @click.prevent="deletionCheck()" class="red-text">Delete this item</a>
         </p>
       </div>
 
@@ -297,23 +297,33 @@ export default Vue.extend({
     },
     async saveItem() {
       try {
-        // console.log('Saving...');
         const { data } = await api.save(this.item);
-        this.$router.replace({ name: 'item', params: { category: this.item.type, id: this.item._id } });
       } catch (e) {
         this.errors = e;
       } finally {
         this.loading = false;
+        this.$router.replace({ name: 'item', params: { category: this.item.type, id: this.item._id } });
+        this.$emit('alert', 'Saved!');
       }
     },
-    deleteItem() {
+    async deleteItem() {
+      try {
+        const { data } = await api.save(this.item);
+      } catch (e) {
+        this.errors = e;
+      } finally {
+        this.loading = false;
+        this.$router.replace({ name: 'item', params: { category: this.item.type, id: this.item._id } });
+        this.$emit('alert', 'Deleted!');
+      }
+    },
+    deletionCheck() {
       Vue.set(this.item, '_deleted', true);
       // console.log('delete')
       const proceed = confirm('Are you sure you want to remove this item? This action can not be undone.');
 
       if (proceed) {
-        this.saveItem();
-        // todo: add toast about deleting an item
+        this.deleteItem();
       }
     },
     changeDate() {
@@ -352,9 +362,12 @@ export default Vue.extend({
     background-color: #eee;
   }
   textarea#textarea-body {
-    background-color: #eee;
+    background-color: white; 
     height: 200px;
     line-height: 1.4rem;
     padding: 1rem;
+  }
+  #app form input {
+    background: white;
   }
 </style>

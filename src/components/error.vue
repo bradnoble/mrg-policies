@@ -14,6 +14,12 @@
           </li>
         </ol>
         <p>It also may simply be that the item you're trying to access has been deleted.</p>
+        <div class="divider"></div>
+        <p>
+          <router-link :to="{name: 'policies'}" class="white-text">
+            &larr; Back to policies
+          </router-link>
+        </p>
         <pre class="hide">{{ errors }}</pre>
       </div><!--col-->
     </div><!--row-->

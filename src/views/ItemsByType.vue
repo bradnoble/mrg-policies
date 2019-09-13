@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <h1 class="hide">Clips</h1>
+    <h1 class="">{{ title }}</h1>
 
     <error :errors="errors" />
     <loading :loading="loading" />
@@ -39,6 +39,12 @@ export default Vue.extend({
       items: [] as string[],
       errors: [] as string[],
     };
+  },
+  computed: {
+    title() {
+      //this.$route.params.category
+      return "Policies";
+    },
   },
   mounted() {
     this.fetchData();

@@ -1,19 +1,29 @@
 <template>
   <div id="app">
-    <div class="container">
-      <div class="row">
-        <div class="col s12 m6">
-          <img src="./assets/mrg-logo.png" class="logo" />
-          <span id="nav">
-            <router-link :to="{name: 'itemsByType', params: {category: 'policy'}}">Policies</router-link> | 
-            <router-link :to="{name: 'itemsByType', params: {category: 'clip'}}">Clips</router-link>
-          </span>
-        </div>
-        <div class="col s12 m6">
+    <div class="navbar-fixed">
+      <nav>
+          <searchForm class="hide-on-small-only" />   
+          <!--
+          <a href="#" class="brand-logo">
+            <img src="./assets/mrg-logo.png" class="logo" />
+          </a>
+          -->
+      </nav>
+    </div>
+      <div class="row hide-on-med-and-up interior-form">
+        <div class="col s12">
           <searchForm />   
-        </div>
-      </div><!--row--> 
-      <router-view />
+        </div><!--col-->
+      </div><!--row-->
+    <div class="container">
+        <transition name="fade">
+          <div v-if="alert" class="alert">
+            <p class="green white-text">
+              {{ this.alert }}
+            </p>
+          </div>
+        </transition>
+      <router-view @alert="onSaveAlert" />
     </div>
   </div>
 </template>
@@ -30,6 +40,21 @@ export default Vue.extend({
   components: {
     searchForm,
   },
+  data() {
+    return {
+      alert: '',
+    };
+  },
+  methods: {
+    onSaveAlert(val: any) {
+      console.log('saved!');
+      this.alert = val
+      return setTimeout(() => {
+        this.alert = '';
+      }, 2000);
+
+    },
+  },
 });
 </script>
 
@@ -37,30 +62,25 @@ export default Vue.extend({
 
 <style lang="scss">
 #app {
+  background-color: ghostwhite;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
 }
-#nav {
-  padding: 30px;
-  a {
-    color: #2c3e50;
-    text-decoration: underline;
-    &.router-link-exact-active {
-      color: green;
-      font-weight: bold;
-      text-decoration: none;
-    }
-  }
+nav {
+  background-color: white;
+  background-image: url('./assets/mrg-logo.png');
+  background-repeat: no-repeat;
+  background-size: 40px;
+  background-position: center; /* Center the image */
 }
-.container {
-  text-align: left
+// for the search form on mobile
+.interior-form {
+  background-color: white;
+  border-bottom: 1px solid #dedede;
 }
-img.logo {
-  width: 50px;
-}
+// for search results and related items
 .item {
   h6 {
     a {
@@ -77,14 +97,26 @@ i.material-icons.large {
 i.material-icons.tiny {
   vertical-align: middle !important;
 }
-input#search {
-  &.active {
-    background-color: yellow;
-  }
-}
+// for sidenav
 a.collection-item.router-link-exact-active {
   background: #eee;
   color: black;
   font-weight: bold;
 }
+// for alert animations, like saving
+.alert {
+  position: absolute;
+  left: 0;
+  top: 50px;
+  width: 100%;
+  text-align: center;
+  z-index: 1000;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
 </style>
