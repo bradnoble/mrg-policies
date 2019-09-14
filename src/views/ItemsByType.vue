@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <h1 class="">
-      {{ title }}
+      {{ title | capitalize }}
     </h1>
 
     <error :errors="errors" />
@@ -44,8 +44,19 @@ export default Vue.extend({
   },
   computed: {
     title() {
+      let cat = '';
+      switch (this.$route.params.category) {
+        case 'policy':
+          cat = 'policies';
+          break;
+        case 'clip':
+          cat = 'clips';
+          break;
+        default:
+          cat = '[no title]';
+      }
       // this.$route.params.category
-      return 'Policies';
+      return cat;
     },
   },
   mounted() {
