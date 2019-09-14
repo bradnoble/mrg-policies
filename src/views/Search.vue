@@ -14,11 +14,21 @@
         <div v-for="(facet, key) in facets" v-bind:key="key">
           <div class="divider"></div>
           <h6>
-            {{ key }}
+            {{ key | capitalize }}
           </h6>
           <ul class="browser-default">
             <li v-for="(value, index) in facet" v-bind:key="index">
-              <router-link :to="{name: 'search', query: {'q': $route.query.q ,'drilldown': JSON.stringify([key, index ]) }}">{{ index }} ({{value}})</router-link>
+              <router-link :to="{name: 'search', query: {'q': $route.query.q ,'drilldown': JSON.stringify([key, index ]) }}" v-if="Object.keys(facet).length > 1">
+                {{ index | capitalize }} ({{value}})
+              </router-link>
+              <span v-else>
+                {{ index | capitalize }} ({{value}})
+                <span v-if="$route.query.drilldown">
+                  <router-link :to="{name: 'search', query: {q: $route.query.q }}" class="red-text" v-if="index === JSON.parse($route.query.drilldown)[1]" title="remove filter">
+                    <i class="material-icons tiny">clear</i>
+                  </router-link>
+                </span>
+              </span>
             </li>
           </ul>
         </div>
