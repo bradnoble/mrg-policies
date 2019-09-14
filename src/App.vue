@@ -47,8 +47,8 @@ export default Vue.extend({
   },
   methods: {
     onSaveAlert(val: any) {
-      console.log('saved!');
-      this.alert = val
+      // console.log('saved!');
+      this.alert = val;
       return setTimeout(() => {
         this.alert = '';
       }, 2000);

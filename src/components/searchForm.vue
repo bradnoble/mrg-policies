@@ -24,14 +24,13 @@ export default Vue.extend({
     // TODO: M.updateTextFields();
   },
   watch: {
-    $route(to, from){
+    $route(to, from) {
       // this will hide the search query when the view
       // is something other than search results
-      if(!this.$route.query.q){
+      if (!this.$route.query.q) {
         this.searchStr = '';
       }
-    }
-    // asdf
+    },
   },
   methods: {
     pushToRouter() {
