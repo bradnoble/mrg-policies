@@ -75,15 +75,30 @@ nav {
   background-size: 40px;
   background-position: center; /* Center the image */
 }
+
 // for the search form on mobile
 .interior-form {
   background-color: white;
   border-bottom: 1px solid #dedede;
 }
+
 // for search results and related items
+.chip {
+  text-transform: uppercase;
+  background: white;
+  border: 1px solid #eee;
+  &.policy {
+    color: red;
+  }
+  &.date {
+    background: ghostwhite;
+  }
+
+}
 .item {
   h6 {
     a {
+      color: #2c3e50;
       font-weight: bold
     }
   }
@@ -97,6 +112,7 @@ i.material-icons.large {
 i.material-icons.tiny {
   vertical-align: middle !important;
 }
+
 // for sidenav
 a.collection-item.router-link-exact-active {
   background: #eee;

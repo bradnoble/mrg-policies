@@ -1,7 +1,7 @@
 <template>
-  <a :href="item.url" target="_blank" class="green-text">
+  <a :href="item.url" target="_blank" class="">
     {{ item.url | truncateURL }}
-    <i class="material-icons tiny hide">launch</i>
+    <i class="material-icons tiny">launch</i>
   </a>
 </template>
 
