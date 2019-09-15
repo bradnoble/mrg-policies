@@ -7,6 +7,10 @@ var x = function (doc) {
     if(doc.policies.indexOf(',') > -1){
       let array = doc.policies.split(',');
       doc.policies = array;  
+    } else {
+      if(doc.policies.length > 0) {
+        doc.policies = [doc.policies];
+      }
     }
     if(doc.type == "policy"){
       doc.policies = [];

@@ -153,7 +153,7 @@ export default Vue.extend({
       try {
         this.item = await this.getItem();
         this.sidenav = await this.getSidenav();
-        if (this.item.type !== 'policy') {
+        if (this.item.type !== 'policy' && this.item.policies && this.item.policies.length > 0) {
           this.relatedItems = await this.getRelatedPolicies();
         } else {
           this.relatedItems = await this.getRelatedItems();
