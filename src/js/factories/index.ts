@@ -33,7 +33,7 @@ export default {
   },
 */
   getDocTypes() {
-    return ['policy', 'clip', 'decision', 'precedent'];
+    return ['policy', 'clip', 'decision', 'precedent', 'motion (approved)', 'motion (denied)', 'resolution'];
   },
   getMonths() {
     const months = ['January', 'February', 'March', 'April', 'May', 'June',
