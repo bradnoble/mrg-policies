@@ -23,7 +23,7 @@
                   {{ item.date | readerFriendlyDate }}
                 </span>
                 <span v-if="!item.date || item.date == ''" class="chip date">
-                  [ Date of adoption ]
+                  [ Date adopted ]
                 </span>
               </div>
               <p>
