@@ -181,9 +181,9 @@ export default Vue.extend({
 
 .chip {
   text-transform: uppercase;
+  background: ghostwhite;
   &.policy {
-    background: red;
-    color: white;
+    color: red;
   }
   &.date {
     background: ghostwhite;

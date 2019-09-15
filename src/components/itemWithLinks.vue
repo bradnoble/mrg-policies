@@ -1,6 +1,7 @@
 <template>
   <div class="item">
     <h6>
+      <span class="chip" :class="item.type">{{ item.type }}</span>
       <router-link :to="{name: 'item', params: {category: item.type, id: item._id}}" class="purple-text">
         {{ item.title | capitalize }}
       </router-link>
