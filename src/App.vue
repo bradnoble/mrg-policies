@@ -2,8 +2,8 @@
   <div id="app">
     <div class="navbar-fixed">
       <nav>
-          <searchForm class="hide-on-small-only" />   
           <!--
+          <searchForm class="hide-on-small-only" />   
           <a href="#" class="brand-logo">
             <img src="./assets/mrg-logo.png" class="logo" />
           </a>
@@ -12,17 +12,19 @@
     </div>
       <div class="row hide-on-med-and-up interior-form">
         <div class="col s12">
-          <searchForm />   
         </div><!--col-->
       </div><!--row-->
     <div class="container">
-        <transition name="fade">
-          <div v-if="alert" class="alert">
-            <p class="green white-text">
-              {{ this.alert }}
-            </p>
-          </div>
-        </transition>
+      
+      <searchForm />   
+
+      <transition name="fade">
+        <div v-if="alert" class="alert">
+          <p class="green white-text">
+            {{ this.alert }}
+          </p>
+        </div>
+      </transition>
       <router-view @alert="onSaveAlert" />
     </div>
   </div>
@@ -62,7 +64,7 @@ export default Vue.extend({
 
 <style lang="scss">
 #app {
-  background-color: ghostwhite;
+  /* background-color: ghostwhite; */
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -81,26 +83,27 @@ nav {
   background-color: white;
   border-bottom: 1px solid #dedede;
 }
-
-// for search results and related items
-.chip {
-  text-transform: uppercase;
-  background: white;
-  border: 1px solid #eee;
-  &.policy {
-    color: red;
+.collection {
+  border: 0;
+  .collection-item {
+    border: 0
   }
-  &.date {
-    background: ghostwhite;
-  }
-
 }
 .item {
-  h6 {
+  b {
     a {
       color: #2c3e50;
       font-weight: bold
     }
+  }
+  &.row {
+    margin-bottom: 0
+  }
+  .type {
+    color: grey;
+    font-size: .75rem;
+    text-align: right;
+    text-transform: uppercase;
   }
 }
 i.material-icons {

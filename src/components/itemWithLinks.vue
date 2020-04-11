@@ -1,21 +1,24 @@
 <template>
-  <div class="item">
-    <h6>
-      <span class="chip" :class="item.type">{{ item.type }}</span>
-      <router-link :to="{name: 'item', params: {category: item.type, id: item._id}}" class="">
-        {{ item.title | capitalize }}
-      </router-link>
-    </h6>
-    <div v-if="item.url">
-      <url :item="item" />
+  <div class="item row">
+    <div class="col s12 m2 type">
+      <span class="">{{ item.type | capitalize }}</span>
     </div>
-    <div>
-      <span class="date" v-if="item.date">
-        {{ item.date | readerFriendlyDate }}
-      </span>
-      {{ item.body | truncateBodyText(90) }}
+    <div class="col s12 m10">
+      <b>
+        <router-link :to="{name: 'item', params: {category: item.type, id: item._id}}" class="underline">
+          {{ item.title | capitalize }}
+        </router-link>
+      </b>
+      <div v-if="item.url" class="hide">
+        <url :item="item" />
+      </div>
+      <div>
+        <p>
+          {{ item.body | truncateBodyText(150) }}
+        </p>
+      </div>
+      <span class="date hide" v-if="item.date">{{ item.date | readerFriendlyDate }}</span>
     </div>
-    <span class="hide" :class="item.type">{{ item.type }}</span>      
   </div>
 </template>
 

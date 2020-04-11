@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <h1 class="">
+    <h1 class="hide">
       {{ title | capitalize }}
     </h1>
 

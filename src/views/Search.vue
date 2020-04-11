@@ -8,13 +8,13 @@
     <div class="row" v-if="!loading && results && results.length > 0">
 
       <div class="facets col s12 m3">
-        <h5>
+        <h5 class="hide">
           Filters
         </h5>
         <div v-for="(facet, key) in facets" v-bind:key="key">
-          <div class="divider"></div>
+          <div class="divider hide"></div>
           <h6>
-            {{ key | capitalize }}
+            Filter by <b>{{ key }}</b>
           </h6>
           <ul class="browser-default">
             <li v-for="(value, index) in facet" v-bind:key="index">
@@ -35,7 +35,7 @@
       </div><!--col-->
 
       <div class="results col s12 m9">
-        <h5>
+        <h5 class="hide">
           Search results
         </h5>
         <div class="collections">

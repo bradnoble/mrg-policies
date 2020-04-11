@@ -1,10 +1,10 @@
 <template>
-    <form action="#" @submit.prevent="pushToRouter" class="searchForm">
-      <div class="input-field">
-        <i class="material-icons prefix tiny">search</i>
-        <input type="text" v-model="searchStr" placeholder="Search..." @focus="activate()" @blur="deactivate()" :class="{active: activated == true || $route.query.q }" class="search" />
-      </div>
-    </form>
+  <form action="#" @submit.prevent="pushToRouter" class="searchForm">
+    <div class="input-field">
+      <!-- <i class="material-icons prefix tiny">search</i> -->
+      <input type="text" v-model="searchStr" placeholder="Search for policies..." @focus="activate()" @blur="deactivate()" :class="{active: activated == true || $route.query.q }" class="search" />
+    </div>
+  </form>
 </template>
 
 <script lang="ts">
